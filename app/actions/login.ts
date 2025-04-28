@@ -13,7 +13,7 @@ export const LoginAccount = async(values: z.infer<typeof LoginSchema>) => {
 
     const { email, password } = validatedFields.data
     const existingUser = await getUserByEmail(email)
-    if(!existingUser || existingUser.password !== password) return {error: "User not found"}
+    if(!existingUser) return {error: "User not found"}
 
     try {
         await signIn("credentials",{

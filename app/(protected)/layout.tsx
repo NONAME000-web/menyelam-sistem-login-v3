@@ -1,8 +1,11 @@
 import React, { ReactNode } from 'react'
+import { SessionProvider } from 'next-auth/react'
 
 const Layout = ({children}: {children: ReactNode}) => {
   return (
-    <div className='h-screen w-full bg-slate-700 flex items-center justify-center'>{children}</div>
+    <SessionProvider>
+        <div>{children}</div>
+    </SessionProvider>
   )
 }
 
