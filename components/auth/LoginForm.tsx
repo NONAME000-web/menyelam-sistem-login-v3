@@ -12,11 +12,14 @@ import { Button } from '../ui/button'
 import { ErrorForm } from '../ErrorForm'
 import { SuccessForm } from '../SuccesForm'
 import {zodResolver} from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 
 const LoginForm = () => {
     const [success, setSuccess] = useState<string | undefined>(undefined)
     const [error, setError] = useState<string | undefined>(undefined)
     const [isPending, startTransition] = useTransition()
+    const router = useRouter()
 
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver : zodResolver(LoginSchema),
@@ -34,6 +37,8 @@ const LoginForm = () => {
             LoginAccount(values).then((res) => {
                 if(res?.error) setError(res.error)
                 else setSuccess("Login Success")
+                router.refresh()
+                router.push(DEFAULT_LOGIN_REDIRECT)
             })
         })
     }
